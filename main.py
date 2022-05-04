@@ -3,8 +3,8 @@ from tkinter import ttk
 
 import pygame
 
-from Algorithms.Astar import Astar
-from Algorithms.BreadthFirst import BreadthFirst
+from Astar import Astar
+from BreadthFirst import BreadthFirst
 from Grid import Grid
 
 root = Tk()
