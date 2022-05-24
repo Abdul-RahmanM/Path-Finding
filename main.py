@@ -60,7 +60,6 @@ def main(startBox, targetBox, showSteps, algorithm):
         clock.tick(30)
         if algo_ran == False:
             run_text = grid.STAT_FONT.render("Press X to run", 1, (255, 0, 0))
-            print("Not ran")
             grid.win.blit(run_text, (grid.windowX - 10 - run_text.get_width(), 10))
 
         for event in pygame.event.get():
@@ -80,12 +79,10 @@ def main(startBox, targetBox, showSteps, algorithm):
                         Astar(start_node, target_node, grid, showSteps)
                     elif algorithm == "Breadth-first":
                         BreadthFirst(start_node, target_node, grid, showSteps)
-
-                    run_text = grid.STAT_FONT.render("Press X to run", 1, (0, 0, 0))
-
-                    grid.win.blit(run_text, (grid.windowX - 10 - run_text.get_width(), 10))
+                    for x in range(len(grid.grid)):
+                        for y in range(len(grid.grid)):
+                            grid.grid[x][y].draw()
                     grid.drawgrid()
-
                     reset_text = text = grid.STAT_FONT.render("Click Anywhere To Reset", 1, (255, 0, 0))
                     grid.win.blit(reset_text, (grid.windowX - 10 - text.get_width(), 10))
 

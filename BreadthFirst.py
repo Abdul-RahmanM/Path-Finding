@@ -21,7 +21,6 @@ def BreadthFirst(start_node, target_node, grid, showSteps):
         current_node = unexplored[0]
         neighbours = grid.getneighours(current_node)
         if current_node == target_node:
-            print("Found")
             path = retrace(current_node, start_node)
             for node in path:
                 if node != target_node:
@@ -50,8 +49,6 @@ def BreadthFirst(start_node, target_node, grid, showSteps):
 
 def retrace(current_node, start_node):
     path = []
-    print("retracing")
-
     while current_node != start_node:
         if current_node.parent !=  None:
             path.append(current_node)

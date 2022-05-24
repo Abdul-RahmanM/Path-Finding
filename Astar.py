@@ -8,12 +8,10 @@ Yellow = (255,255,0)
 Pink = (255, 0, 136)
 
 def Astar(start_node, target_node, grid, showSteps):
-    print(showSteps.get())
     showSteps = showSteps.get()
     unexplored = []
     explored = []
     unexplored.append(start_node)
-    print(start_node.x, start_node.y)
 
     while len(unexplored) > 0:
 
@@ -27,14 +25,12 @@ def Astar(start_node, target_node, grid, showSteps):
         for node in unexplored:
             if node.getFcost() < current_node.getFcost() or (node.getFcost() == current_node.getFcost() & node.hCost < current_node.hCost):
                 current_node = node
-                #print("Chosen One: ", current_node.x, current_node.y)
 
         unexplored.remove(current_node)
         explored.append(current_node)
 
 
         if current_node == target_node:
-            print("Found")
             path = retrace(current_node, start_node)
             for node in path:
                 if node != target_node:
@@ -81,11 +77,9 @@ def getDist(current_node, neighbour_node):
 
 def retrace(current_node, start_node):
     path = []
-    print("retracing")
 
     while current_node != start_node:
         if current_node.parent != None:
-           # print(current_node.x, current_node.y)
             path.append(current_node)
             current_node = current_node.parent
     path.reverse()
