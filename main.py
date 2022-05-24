@@ -19,7 +19,10 @@ Black = (0,0,0)
 Pink = (255, 0, 136)
 
 def main(startBox, targetBox, showSteps, algorithm):
+    algo_ran = False
     algorithm = algorithm.get()
+
+    #Verify user input was valid
     try:
         startX, startY = startBox.get().split(',')
         targetX, targetY = targetBox.get().split(',')
@@ -38,11 +41,16 @@ def main(startBox, targetBox, showSteps, algorithm):
         error.grid(row=8, column=1, sticky=W)
         root.mainloop()
 
+    if algorithm == "Algorithms":
+        error = Label(root, text=" Please select an algorithm ")
+        error.grid(row=8, column=1, sticky=W)
+        root.mainloop()
+
     root.destroy()
+
 
     start_node.color = Red
     target_node.color = Pink
-
     start_node.draw()
     target_node.draw()
 
@@ -50,35 +58,64 @@ def main(startBox, targetBox, showSteps, algorithm):
     run = True
     while run:
         clock.tick(30)
+        if algo_ran == False:
+            run_text = grid.STAT_FONT.render("Press X to run", 1, (255, 0, 0))
+            print("Not ran")
+            grid.win.blit(run_text, (grid.windowX - 10 - run_text.get_width(), 10))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.display.quit()
                 quit()
+
+
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_x:
+                    if algo_ran == True:
+                        grid.reset()
+                    algo_ran = True
                     if algorithm == "Astar":
                         Astar(start_node, target_node, grid, showSteps)
-                        grid.drawgrid()
-
                     elif algorithm == "Breadth-first":
                         BreadthFirst(start_node, target_node, grid, showSteps)
-                        grid.drawgrid()
+
+                    run_text = grid.STAT_FONT.render("Press X to run", 1, (0, 0, 0))
+
+                    grid.win.blit(run_text, (grid.windowX - 10 - run_text.get_width(), 10))
+                    grid.drawgrid()
+
+                    reset_text = text = grid.STAT_FONT.render("Click Anywhere To Reset", 1, (255, 0, 0))
+                    grid.win.blit(reset_text, (grid.windowX - 10 - text.get_width(), 10))
 
 
-        # Barrier Creation
-        if pygame.mouse.get_pressed() == (True, False, False):
-            mouse_pos = pygame.mouse.get_pos()
-            x, y = mouse_pos
-            x = int(x/20)
-            y = int(y/20)
+        # Barrier Creation Destruction and reset
+        mouse_pos = pygame.mouse.get_pos()
+        x, y = mouse_pos
+        x = int(x / 20)
+        y = int(y / 20)
+        if pygame.mouse.get_pressed() == (True, False, False) or pygame.mouse.get_pressed() == (False,False,True):
             clicked_node = grid.grid[x][y]
-            if clicked_node != target_node:
-                if clicked_node != start_node:
-                    clicked_node.color = White
-                    clicked_node.walkable = False
-                    clicked_node.draw()
+
+            if algo_ran == True:
+                grid.reset()
+                algo_ran = False
+
+            if pygame.mouse.get_pressed() == (True, False, False):
+                if clicked_node != target_node:
+                    if clicked_node != start_node:
+                        clicked_node.color = White
+                        clicked_node.walkable = False
+                        clicked_node.draw()
+
+            if pygame.mouse.get_pressed() == (False,False,True):
+                if clicked_node != target_node:
+                    if clicked_node != start_node:
+                        clicked_node.color = Black
+                        clicked_node.walkable = True
+                        clicked_node.draw()
+
         pygame.display.update()
 
 def getEntry():

@@ -12,6 +12,11 @@ def BreadthFirst(start_node, target_node, grid, showSteps):
     unexplored.append(start_node)
     showSteps = showSteps.get()
 
+    start_node.color = Red
+    target_node.color = Pink
+    start_node.draw()
+    target_node.draw()
+
     while len(unexplored) > 0:
         current_node = unexplored[0]
         neighbours = grid.getneighours(current_node)
