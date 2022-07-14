@@ -96,6 +96,8 @@ def main(startBox, targetBox, showSteps, algorithm):
             clicked_node = grid.grid[x][y]
 
             if algo_ran == True:
+                start_node.draw()
+                target_node.draw()
                 grid.reset()
                 algo_ran = False
 
